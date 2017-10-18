@@ -1,0 +1,109 @@
+/*
+ * File:   Main.c
+ * Author: Gaël
+ *
+ * Created on 28 avril 2017, 15:47
+ */
+
+
+#include <xc.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <xc.h>
+//#include<xc.inc>
+#include <p18cxxx.h>
+//#include <pconfig.h>
+#include <pic18f8722.h>
+
+// ----------------------
+// Configuration Hardware
+// ----------------------
+#pragma config OSC = HSPLL
+#pragma config FCMEN = OFF
+#pragma config IESO = OFF
+#pragma config PWRT = OFF
+#pragma config BOREN = OFF
+#pragma config MCLRE = ON
+#pragma config WDT = OFF
+#pragma config LVP = OFF
+#pragma config XINST = OFF
+
+
+void spi ()
+{
+    SSP1STATbits.SMP=1;// master --> sampled at end of of data output time
+    SSP1STATbits.CKE=1;// transmit from active to inactive clock state
+    SSP2CON1bits.SSPEN=1;//
+    SSP2CON1bits.CKP=1;// idle high level
+    SSP2CON1bits.SSPM3=0;//SPI master mode SCK=FOSC/16
+    SSP2CON1bits.SSPM2=0;
+   SSP2CON1bits.SSPM1=0;
+    SSP2CON1bits.SSPM0=1;
+   SSP2CON1bits.WCOL=0; //no collison
+   
+}
+
+
+
+void main(void) {
+   void pinset();
+   void spi();
+   void spiad9833Control (unsigned char c);
+   void spiad9833Freq (unsigned char b) ;
+   void spiad9833Phase (unsigned char a);
+   while (1){
+   
+   }
+    return;
+}
+
+
+
+void pinset ()
+{
+//port c et d en sortie
+
+    TRISCbits.RC5 = 0;//SDO pin is an output
+    TRISCbits.RC4=1;//SDA1
+    TRISCbits.RC3 = 0;//Pin is an output SCK1
+}
+
+void InterruptInit ()
+{
+    PIR1bits.SSP1IF=0;// SPI Interrupt Flag bit
+
+}
+
+
+void spiad9833Control (void)
+{
+    
+    SSPBUF = 0b00000000; //control register LSB
+    while(!SSPIF);// transmition
+    SSPIF=0;
+    SSPBUF=0b00100000;// control register MSB
+    while(!SSPIF)
+    SSPIF=0;
+	//bitset
+}
+void spiad9833Freq (void) {
+    //MSB in the frequency register 1
+  
+    SSPBUF=0b11111111; //first 8 bit to write to the frequency register
+    while(!SSPIF)
+    SSPIF=0;
+    SSPBUF =0b01111111; // write the second 8 bit to frequency register
+    while(!SSPIF)
+    SSPIF=0;
+
+}
+
+void spiad9833Phase (void){
+
+    SSPBUF=0b00000000;
+    while(!SSPIF)
+    SSPIF=0;
+    SSPBUF=0b11000000;
+     while(!SSPIF)
+    SSPIF=0;
+}
