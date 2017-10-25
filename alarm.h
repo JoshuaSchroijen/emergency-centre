@@ -5,13 +5,11 @@
 class alarm
 {
 public:
-    alarm(int alarmID);
+    alarm(int alarmid);
     int alarmId;
     virtual void ring() = 0;
     void setAlarmId(int newAlarmID);
     int getAlarmId();
-
-
 
 };
 

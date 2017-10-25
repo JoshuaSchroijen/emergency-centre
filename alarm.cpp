@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 
-alarm::alarm(int alarmID):alarm{alarmID}
+alarm::alarm(int alarmid):alarmId{alarmid}
 {
 
 }
