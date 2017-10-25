@@ -5,3 +5,13 @@ smokesensor::smokesensor(int asensorID,bool aactivated,double asensitivity):sens
 {
 
 }
+
+double smokesensor::getSensitivity()
+{
+    return sensitivity;
+}
+
+void smokesensor::setSensitivity(double newSensitivity)
+{
+    sensitivity=newSensitivity;
+}

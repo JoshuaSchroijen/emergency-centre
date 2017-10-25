@@ -9,9 +9,9 @@ public:
     //method
     toxicsensor();
     toxicsensor(int asensorID,bool aactivated ,Gastype aGasType=octane);
-    void setGasType(enum Gastype);
+    void setGasType(Gastype type);
     Gastype getGasType()const;
-    //attributr
+    //attribut
  private:
     Gastype gasType ;
 
