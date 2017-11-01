@@ -1,17 +1,24 @@
 #include "smokesensor.h"
-#include <iostream>
-#include <sstream>
-smokesensor::smokesensor(int asensorID,bool aactivated,double asensitivity):sensor(asensorID, aactivated),sensitivity{asensitivity}
-{
 
+SmokeSensor::SmokeSensor ( int initialSensorID, bool initialState, std::string initialVendor, double initialSensitivity ) :
+    Sensor ( initialSensorID, initialState, initialVendor ),
+    sensitivity ( initialSensitivity ) {
 }
 
-double smokesensor::getSensitivity()
-{
-    return sensitivity;
+double SmokeSensor::getSensitivity ( ) {
+    return ( sensitivity );
 }
 
-void smokesensor::setSensitivity(double newSensitivity)
-{
-    sensitivity=newSensitivity;
+void SmokeSensor::setSensitivity ( double newSensitivity ) {
+    sensitivity = newSensitivity;
+}
+
+std::string SmokeSensor::getInformation ( ) {
+    std::string informationString = Sensor::getInformation ( );
+    informationString.replace ( 0, 6, "Smoke sensor" );
+    return ( informationString );
+}
+
+void SmokeSensor::observeAndReact ( const GeneralSensorObserver & observer ) {
+    std::cout << "observe\n";
 }

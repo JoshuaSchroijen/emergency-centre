@@ -1,28 +1,33 @@
 #include "motionsensor.h"
-#include <iostream>
-#include <sstream>
 
-motionSensor::motionSensor(int asensorID,bool aactivated ,double minDis,  double maxDis): sensor(asensorID, aactivated),minDistance{minDis},maxDistance{maxDis}
-{
-
+MotionSensor::MotionSensor ( int initialSensorID, bool initialState, std::string initialVendor, double initialMinDistance, double initialMaxDistance ) :
+    Sensor ( initialSensorID, initialState, initialVendor ),
+    minDistance ( initialMinDistance ),
+    maxDistance ( initialMaxDistance ) {
 }
 
-double motionSensor::getMaxDistance()
-{
-    return maxDistance;
-}
-double motionSensor::getMinDistance()
-{
-    return minDistance;
+double MotionSensor::getMinDistance ( ) {
+    return ( minDistance );
 }
 
-void motionSensor::setMinDistance(double newMinDistance)
-{
-    minDistance=newMinDistance;
+double MotionSensor::getMaxDistance ( ) {
+    return ( maxDistance );
 }
 
-void motionSensor::setMaxDistance(double newMaxDistance){
-
-    maxDistance=newMaxDistance;
+void MotionSensor::setMinDistance ( double newMinDistance ) {
+    minDistance = newMinDistance;
 }
 
+void MotionSensor::setMaxDistance ( double newMaxDistance ) {
+    maxDistance = newMaxDistance;
+}
+
+std::string MotionSensor::getInformation ( ) {
+    std::string informationString = Sensor::getInformation ( );
+    informationString.replace ( 0, 6, "Motion sensor" );
+    return ( informationString );
+}
+
+void MotionSensor::observeAndReact ( const GeneralSensorObserver & observer ) {
+    std::cout << "observe\n";
+}

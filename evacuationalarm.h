@@ -1,13 +1,11 @@
 #ifndef EVACUATIONALARM_H
 #define EVACUATIONALARM_H
+
 #include "alarm.h"
 
-class evacuationalarm : public alarm
-{
-public:
-    evacuationalarm(int alarmID);
-     void ring();
-     int alarmId;
+class Evacuationalarm : public Alarm {
+    public:
+        void operator() ( ) const;
 };
 
-#endif // EVACUATIONALARM_H
+#endif

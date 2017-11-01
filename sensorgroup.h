@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include <memory>
 
 #include "sensorinterface.h"
 
@@ -11,16 +12,12 @@ class SensorGroup : public SensorInterface {
         std::list < SensorInterface > children;
 
     public:
-        SensorGroup ( std::string sensorGroupName );
+        SensorGroup ( std::string sensorGroupName, bool initialState );
 
-        std::list < SensorInterface > getChildren ( );
+        std::list < SensorInterface > & getChildren ( );
 
-        SensorInterface & getChildWithName ( std::string childName );
-
-        void addChildren ( const SensorInterface & newChildren );
-        void setActivated ( bool newActivationState );
-
-        bool detection ( );
+        void addChild ( SensorInterface & newChild );
+        void addChildren ( std::list < SensorInterface > & newChildren );
 };
 
-#endif // SENSORGROUP_H
+#endif

@@ -1,13 +1,13 @@
 #ifndef POLICEALARM_H
 #define POLICEALARM_H
+
+#include <iostream>
+
 #include "alarm.h"
 
-class policealarm :public alarm
-{
-public:
-    policealarm(int alarmID);
-     void ring();
-    int alarmId;
+class Policealarm : public Alarm {
+    public:
+        void operator() ( );
 };
 
-#endif // POLICEALARM_H
+#endif

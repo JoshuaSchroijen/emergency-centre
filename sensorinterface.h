@@ -6,13 +6,18 @@
 class SensorInterface {
     protected:
         std::string name;
+        int ID;
+        bool activated;
 
     public:
-        SensorInterface ( std::string name );
+        SensorInterface ( std::string name , bool initialState );
 
-        virtual std::string getName ( );
-        virtual void setActivated ( bool newActivationState );
-        virtual bool detection ( ) = 0;
+        std::string getName ( );
+        bool getActivated ( );
+        int getID ( );
+        void setName ( std::string newName );
+        void setActivated ( bool newState );
+        void setID ( int newID );
 };
 
-#endif // SENSORINTERFACE_H
+#endif

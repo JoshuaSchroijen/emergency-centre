@@ -1,14 +1,7 @@
-#include "evacuationalarm.h"
 #include <iostream>
-#include <sstream>
 
-evacuationalarm::evacuationalarm( int alarmID ):alarm{alarmID}
-{
+#include "evacuationalarm.h"
 
-
-}
-void evacuationalarm::ring(){
-
-
-    std:: cout << "Who let's the dog outside???" << std:: endl;
+void Evacuationalarm::operator() ( ) const {
+    std::cout << "Please take your valuables and evacuate immediately!\n";
 }

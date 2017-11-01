@@ -1,19 +1,24 @@
 #ifndef SMOKESENSOR_H
 #define SMOKESENSOR_H
+
+#include <string>
+
+class GeneralSensorObserver;
+
 #include "sensor.h"
 
-class smokesensor : public sensor
-{
-public:
-    //method
+class SmokeSensor : public Sensor {
+    private:
+        double sensitivity;
 
-    smokesensor(int asensorID,bool aactivated,double asensitivity);
-    double getSensitivity();
-    void setSensitivity(double newSensitivity);
+    public:
+        SmokeSensor ( int initialSensorID, bool initialState, std::string initialVendor, double initialSensitivity );
 
-private:
-   //attribut
-    double sensitivity;
+        double getSensitivity ( );
+        void setSensitivity ( double newSensitivity );
+
+        std::string getInformation ( );
+        void observeAndReact ( const GeneralSensorObserver & observer );
 };
 
-#endif // SMOKESENSOR_H
+#endif

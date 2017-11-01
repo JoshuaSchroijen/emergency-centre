@@ -1,13 +1,13 @@
-#ifndef FIREALARM_H
+ #ifndef FIREALARM_H
 #define FIREALARM_H
+
+#include <iostream>
+
 #include "alarm.h"
 
-class Firealarm : public alarm
-{
-public:
-    Firealarm(int alarmID);
-    void ring();
-   // int alarmId;
+class Firealarm : public Alarm {
+    public:
+        void operator() ( );
 };
 
-#endif // FIREALARM_H
+#endif

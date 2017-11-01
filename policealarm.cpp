@@ -1,11 +1,6 @@
 #include "policealarm.h"
-#include <iostream>
-#include <sstream>
-policealarm::policealarm(int alarmID): alarm{alarmID}//question here
-{
 
-}
-void policealarm::ring(){
-
-   std::cout << "The police is on his way now!" << std::endl;
+void Policealarm::operator() ( ) {
+   std::cout << "Police connected successfully!\n"
+             << "The police is on its way now!\n";
 }

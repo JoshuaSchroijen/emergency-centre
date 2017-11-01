@@ -1,16 +1,9 @@
 #ifndef ALARM_H
 #define ALARM_H
 
-
-class alarm
-{
-public:
-    alarm(int alarmid);
-    int alarmId;
-    virtual void ring() = 0;
-    void setAlarmId(int newAlarmID);
-    int getAlarmId();
-
+class Alarm {
+    public:
+        virtual void operator() ( ) const = 0;
 };
 
-#endif // ALARM_H
+#endif

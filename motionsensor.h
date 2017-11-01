@@ -1,21 +1,27 @@
 #ifndef MOTIONSENSOR_H
 #define MOTIONSENSOR_H
+
+#include <string>
+
+class GeneralSensorObserver;
+
 #include "sensor.h"
 
-class motionSensor : public sensor
-{
-public:
-    //method
+class MotionSensor : public Sensor {
+    private:
+        double minDistance;
+        double maxDistance;
 
-    motionSensor(int asensorID,bool aactivated ,double minDis, double maxDis);
-    double getMinDistance ();
-    double getMaxDistance();
-    void setMaxDistance(double newMaxDistance);
-    void setMinDistance(double newMinDistance);
- private: //attribut
-    double minDistance;
-    double maxDistance;
+    public:
+        MotionSensor ( int initialSensorID, bool initialState, std::string initialVendor, double initialMinDistance, double initialMaxDistance );
 
+        double getMinDistance ( );
+        double getMaxDistance ( );
+        void setMinDistance ( double newMinDistance );
+        void setMaxDistance ( double newMaxDistance );
+
+        std::string getInformation ( );
+        void observeAndReact ( const GeneralSensorObserver & observer );
 };
 
-#endif // MOTIONSENSOR_H
+#endif
