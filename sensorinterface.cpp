@@ -1,18 +1,18 @@
 #include "sensorinterface.h"
 
-SensorInterface::SensorInterface ( std::string initialName, bool initialState ) :
-    name ( initialName ), activated ( initialState )  {
+SensorInterface::SensorInterface ( std::string initialName, int initialID, bool initialState ) :
+    name ( initialName ), ID ( initialID ), activated ( initialState )  {
 }
 
-std::string SensorInterface::getName ( ) {
+std::string SensorInterface::getName ( ) const {
     return  ( name );
 }
 
-bool SensorInterface::getActivated ( ) {
+bool SensorInterface::getActivated ( ) const {
     return ( activated );
 }
 
-int SensorInterface::getID ( ) {
+int SensorInterface::getID ( ) const {
     return ( ID );
 }
 

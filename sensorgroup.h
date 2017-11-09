@@ -9,15 +9,22 @@
 
 class SensorGroup : public SensorInterface {
     private:
-        std::list < SensorInterface > children;
+        std::list < std::shared_ptr < SensorInterface > > children;
 
     public:
-        SensorGroup ( std::string sensorGroupName, bool initialState );
+        SensorGroup ( std::string sensorGroupName, int initialGroupID, bool initialState );
 
-        std::list < SensorInterface > & getChildren ( );
+        void addChild ( const SensorInterface & newChild );
+        void addChild ( const SensorInterface * newChild );
+        void addChildren ( const std::list < std::shared_ptr < SensorInterface > > & newChildren );
+        unsigned int getNumberOfChildren ( );
+        const std::list < std::shared_ptr < SensorInterface > > & getChildren ( );
+        const std::shared_ptr < SensorInterface > & getChildAt ( const int childIndex );
+        void sortChildren ( );
 
-        void addChild ( SensorInterface & newChild );
-        void addChildren ( std::list < SensorInterface > & newChildren );
+        friend std::ostream & operator<< ( std::ostream & stream, const SensorGroup & sensorGroup );
+
+        std::string getInformation (int indentLevel) const override;
 };
 
 #endif

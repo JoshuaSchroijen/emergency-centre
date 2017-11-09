@@ -1,7 +1,7 @@
 #include "motionsensor.h"
 
-MotionSensor::MotionSensor ( int initialSensorID, bool initialState, std::string initialVendor, double initialMinDistance, double initialMaxDistance ) :
-    Sensor ( initialSensorID, initialState, initialVendor ),
+MotionSensor::MotionSensor ( std::string initialName, int initialSensorID, bool initialState, std::string initialVendor, double initialMinDistance, double initialMaxDistance ) :
+    Sensor ( initialName, initialSensorID, initialState, initialVendor ),
     minDistance ( initialMinDistance ),
     maxDistance ( initialMaxDistance ) {
 }
@@ -22,9 +22,9 @@ void MotionSensor::setMaxDistance ( double newMaxDistance ) {
     maxDistance = newMaxDistance;
 }
 
-std::string MotionSensor::getInformation ( ) {
-    std::string informationString = Sensor::getInformation ( );
-    informationString.replace ( 0, 6, "Motion sensor" );
+std::string MotionSensor::getInformation ( int indentLevel ) const {
+    std::string informationString = Sensor::getInformation ( indentLevel );
+    informationString.replace ( indentLevel, 6, "Motion sensor" );
     return ( informationString );
 }
 

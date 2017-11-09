@@ -7,35 +7,38 @@
 #include <list>
 
 class GeneralSensorObserver;
+class SensorGroup;
 
+#include "sensorinterface.h"
 #include "alarm.h"
 
-class Sensor {
+class Sensor : public SensorInterface {
     private:
-        int sensorID;
-        bool activated;
+        int getSensorType ( ) const;
+
         std::string sensorVendor;
 
         std::list < std::shared_ptr < Alarm > > alarms;
 
     public:
-        Sensor ( int initialSensorID, bool initialState, std::string vendor );
+        Sensor ( ) : SensorInterface ( "", 0, true ), sensorVendor ( "" ) { }
+        Sensor ( std::string initialName, int initialSensorID, bool initialState, std::string vendor );
 
-        int getSensorID ( ) const;
-        bool getActivated ( ) const;
         std::string getSensorVendor ( ) const;
-        void setSensorID ( int newSensorID );
-        void setActivated ( bool newState );
         void setSensorVendor ( std::string newSensorVendor );
 
         void addAlarm ( std::shared_ptr < Alarm > newAlarm );
         void deleteAlarm ( std::shared_ptr < Alarm > alarmToRemove );
 
         bool operator== ( const Sensor & otherSensor ) const;
+        bool operator< ( const Sensor & other ) const;
+        bool operator< ( const SensorGroup & sensorGroup ) const;
+        Sensor & operator++ ( );
+        Sensor & operator-- ( );
 
         friend std::ostream & operator<< ( std::ostream & stream, const Sensor & sensor );
 
-        virtual std::string getInformation ( ) const;
+        virtual std::string getInformation ( int indentLevel ) const override;
         virtual void observeAndReact ( const GeneralSensorObserver & observer ) = 0;
 };
 

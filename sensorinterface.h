@@ -10,14 +10,17 @@ class SensorInterface {
         bool activated;
 
     public:
-        SensorInterface ( std::string name , bool initialState );
+        SensorInterface ( ) : name ( "" ), ID ( 0 ), activated ( true ) { }
+        SensorInterface ( std::string initialName, int initialID, bool initialState );
 
-        std::string getName ( );
-        bool getActivated ( );
-        int getID ( );
+        std::string getName ( ) const;
+        bool getActivated ( ) const;
+        int getID ( ) const;
         void setName ( std::string newName );
         void setActivated ( bool newState );
         void setID ( int newID );
+
+        virtual std::string getInformation ( int indentLevel ) const = 0;
 };
 
 #endif

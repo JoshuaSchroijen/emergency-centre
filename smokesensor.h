@@ -12,12 +12,13 @@ class SmokeSensor : public Sensor {
         double sensitivity;
 
     public:
-        SmokeSensor ( int initialSensorID, bool initialState, std::string initialVendor, double initialSensitivity );
+        SmokeSensor ( ) : Sensor ( ), sensitivity ( 0 ) { }
+        SmokeSensor ( std::string initialName, int initialSensorID, bool initialState, std::string initialVendor, double initialSensitivity );
 
         double getSensitivity ( );
         void setSensitivity ( double newSensitivity );
 
-        std::string getInformation ( );
+        std::string getInformation ( int indentLevel ) const override;
         void observeAndReact ( const GeneralSensorObserver & observer );
 };
 

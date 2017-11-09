@@ -1,7 +1,7 @@
 #include "toxicgassensor.h"
 
-ToxicGasSensor::ToxicGasSensor ( int initialSensorID, bool initialState, std::string initialVendor, GasType initialGasType ) :
-    Sensor ( initialSensorID, initialState, initialVendor ),
+ToxicGasSensor::ToxicGasSensor ( std::string initialName, int initialSensorID, bool initialState, std::string initialVendor, GasType initialGasType ) :
+    Sensor ( initialName, initialSensorID, initialState, initialVendor ),
     sensorGasType ( initialGasType ) {
 }
 
@@ -13,9 +13,9 @@ void ToxicGasSensor::setGasType ( GasType newGasType ) {
     sensorGasType = newGasType;
 }
 
-std::string ToxicGasSensor::getInformation ( ) {
-    std::string informationString = Sensor::getInformation ( );
-    informationString.replace ( 0, 6, "Toxic gas sensor" );
+std::string ToxicGasSensor::getInformation ( int indentLevel ) const {
+    std::string informationString = Sensor::getInformation ( indentLevel );
+    informationString.replace ( indentLevel , 6, "Toxic gas sensor" );
     return ( informationString );
 }
 
