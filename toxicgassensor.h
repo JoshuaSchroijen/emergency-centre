@@ -11,17 +11,21 @@ enum GasType { CarbonMonoxide };
 
 class ToxicGasSensor : public Sensor {
     private:
+        int thresholdConcentration;
         GasType sensorGasType;
 
     public:
-        ToxicGasSensor ( ) : Sensor ( ), sensorGasType ( CarbonMonoxide ) { }
-        ToxicGasSensor ( std::string initialName, int initialSensorID, bool initialState, std::string initialVendor, GasType initialGasType = CarbonMonoxide );
+        ToxicGasSensor ( ) : Sensor ( ), thresholdConcentration ( 0 ), sensorGasType ( CarbonMonoxide ) { }
+        ToxicGasSensor ( std::string initialName, int initialSensorID, bool initialState, std::string initialVendor, int initialThresholdConcentration, GasType initialGasType = CarbonMonoxide );
 
         GasType getGasType ( ) const;
         void setGasType ( GasType newGastype );
+        int getThresholdConcentration ( ) const;
+        void setThresholdConcentration ( int newThresholdConcentration );
 
         std::string getInformation ( int indentLevel ) const override;
-        void observeAndReact ( const GeneralSensorObserver & observer  );
+        std::string getOriginString ( ) const override;
+        void observeAndReact ( const GeneralSensorObserver & observer ) const;
 };
 
 #endif

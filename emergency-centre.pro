@@ -17,6 +17,7 @@ SOURCES += main.cpp \
     motionsensor.cpp \
     motionsensordatagenerator.cpp \
     toxicgassensor.cpp \
+    alarm.cpp \
     generalsensorobserver.cpp
 
 HEADERS += \

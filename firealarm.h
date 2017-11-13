@@ -7,7 +7,9 @@
 
 class Firealarm : public Alarm {
     public:
-        void operator() ( );
+        Firealarm ( int originalID );
+
+        void operator() ( const std::string & origin ) const override;
 };
 
 #endif

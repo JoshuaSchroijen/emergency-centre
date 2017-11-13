@@ -3,6 +3,10 @@
 #include <chrono>
 #include <random>
 
+#include "firealarm.h"
+#include "policealarm.h"
+#include "evacuationalarm.h"
+
 #include "sensorgroup.h"
 #include "smokesensor.h"
 #include "toxicgassensor.h"
@@ -11,12 +15,16 @@
 #define NUMBER_OF_MODULES 14
 #define ROOMS_PER_MODULE  4
 
-int main() {
+int main ( ) {
     std::default_random_engine IDGeneratorEngine;
     std::uniform_int_distribution<int> IDGeneratorDistribution;    
     IDGeneratorEngine.seed ( std::chrono::system_clock::now ( ).time_since_epoch ( ).count ( ) );
     std::default_random_engine vendorGeneratorEngine;
     std::bernoulli_distribution vendorGeneratorDistribution;
+
+    std::shared_ptr < Firealarm > fireAlarm ( new Firealarm ( IDGeneratorDistribution ( IDGeneratorEngine ) ) );
+    std::shared_ptr < Policealarm > policeAlarm ( new Policealarm ( IDGeneratorDistribution ( IDGeneratorEngine ) ) );
+    std::shared_ptr < Evacuationalarm > evacuationAlarm ( new Evacuationalarm ( IDGeneratorDistribution ( IDGeneratorEngine ) ) );
 
     std::cout << "Welcome to emergency centre!\n";
 
@@ -39,7 +47,9 @@ int main() {
                 newToxicGasSensor = new ToxicGasSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " gas sensor",
                                                          IDGeneratorDistribution ( IDGeneratorEngine ),
                                                          true,
-                                                         "Universal Security Instruments" );
+                                                         "Universal Security Instruments",
+                                                         35,
+                                                         CarbonMonoxide );
                 newMotionSensor = new MotionSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " motion sensor",
                                                      IDGeneratorDistribution ( IDGeneratorEngine ),
                                                      true,
@@ -55,7 +65,9 @@ int main() {
                 newToxicGasSensor = new ToxicGasSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " gas sensor",
                                                          IDGeneratorDistribution ( IDGeneratorEngine ),
                                                          true,
-                                                         "First Alert" );
+                                                         "First Alert",
+                                                         35,
+                                                         CarbonMonoxide );
                 newMotionSensor = new MotionSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " motion sensor",
                                                      IDGeneratorDistribution ( IDGeneratorEngine ),
                                                      true,
@@ -63,6 +75,11 @@ int main() {
                                                      0.1,
                                                      5 );
             }
+
+            newSmokeSensor->addAlarm ( fireAlarm );
+            newSmokeSensor->addAlarm ( evacuationAlarm );
+            newToxicGasSensor->addAlarm ( evacuationAlarm );
+            newMotionSensor->addAlarm ( policeAlarm );
 
             newRoom->addChild ( newSmokeSensor );
             newRoom->addChild ( newToxicGasSensor );

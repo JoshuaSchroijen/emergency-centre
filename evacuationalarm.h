@@ -5,7 +5,9 @@
 
 class Evacuationalarm : public Alarm {
     public:
-        void operator() ( ) const;
+        Evacuationalarm ( int originalID );
+
+        void operator() ( const std::string & origin ) const override;
 };
 
 #endif

@@ -1,12 +1,13 @@
 #include "alarm.h"
 
-int alarm::getAlarmId(){
-
-    return alarmId;
+Alarm::Alarm ( int originalID ) :
+    ID ( originalID ) {
 }
 
-void alarm::setAlarmId(int newAlarmID){
-
-    alarmId=newAlarmID;
+int Alarm::getID ( ) {
+    return ( ID );
 }
 
+void Alarm::setID ( int newID ) {
+    ID = newID;
+}

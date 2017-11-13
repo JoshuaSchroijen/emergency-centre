@@ -7,7 +7,9 @@
 
 class Policealarm : public Alarm {
     public:
-        void operator() ( );
+        Policealarm ( int originalID );
+
+        void operator() ( const std::string & origin ) const override;
 };
 
 #endif

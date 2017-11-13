@@ -1,6 +1,11 @@
 #include "policealarm.h"
 
-void Policealarm::operator() ( ) {
-   std::cout << "Police connected successfully!\n"
-             << "The police is on its way now!\n";
+Policealarm::Policealarm ( int originalID ) :
+    Alarm ( originalID ) {
+}
+
+void Policealarm::operator() ( const std::string & origin ) const {
+    std::cout << origin
+              << " signaled fire alarm with ID " + std::to_string ( ID ) + ".\n"
+              << "Contacting the police!\n";
 }

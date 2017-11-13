@@ -22,7 +22,8 @@ class MotionSensor : public Sensor {
         void setMaxDistance ( double newMaxDistance );
 
         std::string getInformation ( int indentLevel ) const override;
-        void observeAndReact ( const GeneralSensorObserver & observer );
+        std::string getOriginString ( ) const override;
+        void observeAndReact ( const GeneralSensorObserver & observer ) const;
 };
 
 #endif

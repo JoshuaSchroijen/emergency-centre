@@ -13,7 +13,7 @@ class SensorGroup;
 #include "alarm.h"
 
 class Sensor : public SensorInterface {
-    private:
+    protected:
         int getSensorType ( ) const;
 
         std::string sensorVendor;
@@ -39,7 +39,8 @@ class Sensor : public SensorInterface {
         friend std::ostream & operator<< ( std::ostream & stream, const Sensor & sensor );
 
         virtual std::string getInformation ( int indentLevel ) const override;
-        virtual void observeAndReact ( const GeneralSensorObserver & observer ) = 0;
+        virtual std::string getOriginString ( ) const = 0;
+        virtual void observeAndReact ( const GeneralSensorObserver & observer ) const = 0;
 };
 
 #endif

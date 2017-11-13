@@ -1,9 +1,9 @@
 #ifndef SENSOROBSERVOR_H
 #define SENSOROBSERVOR_H
 
-class SmokeSensor;
-class ToxicGasSensor;
-class MotionSensor;
+#include "smokesensor.h"
+#include "toxicgassensor.h"
+#include "motionsensor.h"
 
 #include "generalsensorobserver.h"
 
@@ -15,12 +15,10 @@ class SensorObserver : public GeneralSensorObserver {
         SensorObserver ( );
         SensorObserver ( T initialDataElement );
 
-        T getStoredDataElement ( );
+        T getStoredDataElement ( ) const;
         void setStoredDataElement ( T newDataElement );
 
-        bool observe ( const SmokeSensor & smokeSensor);
-        bool observe ( const ToxicGasSensor & toxicGasSensor );
-        bool observe ( const MotionSensor & movementSensor);
+        bool observe ( const Sensor * const sensor ) const override;
 };
 
 template < typename T >
@@ -33,7 +31,7 @@ SensorObserver < T >::SensorObserver ( T initialDataElement ) :
 }
 
 template < typename T >
-T SensorObserver < T >::getStoredDataElement ( ) {
+T SensorObserver < T >::getStoredDataElement ( ) const {
     return ( storedDataElement );
 }
 
@@ -43,18 +41,28 @@ void SensorObserver < T >::setStoredDataElement ( T newDataElement ) {
 }
 
 template < typename T >
-bool SensorObserver < T >::observe ( const SmokeSensor & smokeSensor ) {
-    return ( true );
-}
-
-template < typename T >
-bool SensorObserver < T >::observe ( const ToxicGasSensor & toxicGasSensor ) {
-    return ( true );
-}
-
-template < typename T >
-bool SensorObserver < T >::observe ( const MotionSensor & movementSensor ) {
-    return ( true );
+bool SensorObserver < T >::observe ( const Sensor * const sensor ) const {
+    if ( const SmokeSensor * const smokeSensor = dynamic_cast < const SmokeSensor * const > ( sensor ) ) {
+        if ( storedDataElement <= smokeSensor->getSensitivity ( ) ) {
+            return ( true );
+        } else {
+            return ( false );
+        }
+    } else if ( const ToxicGasSensor * const toxicGasSensor = dynamic_cast < const ToxicGasSensor * const > ( sensor ) ) {
+        if ( storedDataElement >= toxicGasSensor->getThresholdConcentration ( ) ) {
+            return ( true );
+        } else {
+            return ( false );
+        }
+    } else if ( const MotionSensor * const motionSensor = dynamic_cast < const MotionSensor * const > ( sensor ) ) {
+        if ( storedDataElement == true ) {
+            return ( true );
+        } else {
+            return ( false );
+        }
+    } else {
+        return ( false );
+    }
 }
 
 #endif
