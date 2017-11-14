@@ -16,6 +16,7 @@ class SensorGroup : public SensorInterface {
 
         void addChild ( const SensorInterface & newChild );
         void addChild ( const SensorInterface * newChild );
+        void addChild ( const std::shared_ptr < SensorInterface > & newChild );
         void addChildren ( const std::list < std::shared_ptr < SensorInterface > > & newChildren );
         unsigned int getNumberOfChildren ( );
         const std::list < std::shared_ptr < SensorInterface > > & getChildren ( );

@@ -40,7 +40,7 @@ class Sensor : public SensorInterface {
 
         virtual std::string getInformation ( int indentLevel ) const override;
         virtual std::string getOriginString ( ) const = 0;
-        virtual void observeAndReact ( const GeneralSensorObserver & observer ) const = 0;
+        virtual void observeAndReact ( const GeneralSensorObserver * const observer ) const = 0;
 };
 
 #endif

@@ -1,6 +1,7 @@
 #ifndef SMOKESENSORDATAGENERATOR_H
 #define SMOKESENSORDATAGENERATOR_H
 
+#include <memory>
 #include <random>
 
 #include "sensordatagenerator.h"
@@ -13,7 +14,7 @@ class SmokeSensorDataGenerator : public SensorDataGenerator {
     public:
         SmokeSensorDataGenerator ( );
 
-        void generateData ( );
+        void generateData ( ) override;
 };
 
 #endif

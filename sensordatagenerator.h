@@ -7,7 +7,7 @@
 #include "sensor.h"
 
 class SensorDataGenerator {
-    protected:
+    public:
         std::list < std::shared_ptr < Sensor > > subscribedSensors;
 
         void subscribeSensor ( std::shared_ptr < Sensor > newSensor );

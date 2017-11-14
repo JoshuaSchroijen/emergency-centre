@@ -5,7 +5,7 @@
 
 class GeneralSensorObserver {
     public:
-    GeneralSensorObserver ( );
+        GeneralSensorObserver ( );
 
         virtual bool observe ( const Sensor * const sensor ) const = 0;
 };

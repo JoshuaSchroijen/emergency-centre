@@ -15,7 +15,7 @@ class MotionSensorDataGenerator : public SensorDataGenerator {
     public:
         MotionSensorDataGenerator ( );
 
-        void generateData ( );
+        void generateData ( ) override;
 };
 
 #endif

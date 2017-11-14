@@ -23,7 +23,7 @@ class MotionSensor : public Sensor {
 
         std::string getInformation ( int indentLevel ) const override;
         std::string getOriginString ( ) const override;
-        void observeAndReact ( const GeneralSensorObserver & observer ) const;
+        void observeAndReact ( const GeneralSensorObserver * const observer ) const;
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include "toxicgassensor.h"
 
 #include "generalsensorobserver.h"
+#include "sensorobserver.hpp"
 
 ToxicGasSensor::ToxicGasSensor ( std::string initialName, int initialSensorID, bool initialState, std::string initialVendor, int initialThresholdConcentration, GasType initialGasType ) :
     Sensor ( initialName, initialSensorID, initialState, initialVendor ),
@@ -34,11 +35,17 @@ std::string ToxicGasSensor::getInformation ( int indentLevel ) const {
     return ( informationString );
 }
 
-void ToxicGasSensor::observeAndReact ( const GeneralSensorObserver & observer ) const {
-    if ( observer.observe ( this ) == true ) {
-        for ( std::shared_ptr < Alarm > currentAlarm : alarms ) {
-            ( * currentAlarm ) ( getOriginString ( ) );
+void ToxicGasSensor::observeAndReact ( const GeneralSensorObserver * const observer ) const {
+    if ( const SensorObserver < int > * const concreteObserver = dynamic_cast < const SensorObserver < int > * const > ( observer ) ) {
+        if ( concreteObserver->observe ( this ) == true ) {
+            for ( std::shared_ptr < Alarm > currentAlarm : alarms ) {
+                ( * currentAlarm ) ( getOriginString ( ) );
+                std::cout << getOriginString ( ) + " registered value of "
+                          << concreteObserver->getStoredDataElement ( )
+                          << "\n";
+            }
         }
+    } else {
     }
 }
 

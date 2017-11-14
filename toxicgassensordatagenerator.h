@@ -22,7 +22,7 @@ class ToxicGasSensorDataGenerator : public SensorDataGenerator {
         void subscribeToxicGasSensor ( std::shared_ptr < ToxicGasSensor > newToxicGasSensor );
         void unsubscribeToxicGasSensor ( std::shared_ptr < ToxicGasSensor > toxicGasSensorToRemove );
 
-        void generateData ( );
+        void generateData ( ) override;
 };
 
-#endif // TOXICGASSENSORDATAGENERATOR_H
+#endif

@@ -17,6 +17,10 @@ void SensorGroup::addChild ( const SensorInterface * newChild ) {
     children.push_back ( std::shared_ptr < SensorInterface > ( const_cast < SensorInterface * > ( newChild ) ) );
 }
 
+void SensorGroup::addChild ( const std::shared_ptr < SensorInterface > & newChild ) {
+    children.push_back ( newChild );
+}
+
 void SensorGroup::addChildren ( const std::list < std::shared_ptr < SensorInterface > > & newChildren ) {
     for ( std::shared_ptr < SensorInterface > currentNewChild : newChildren ) {
         children.push_back ( currentNewChild );

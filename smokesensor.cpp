@@ -1,6 +1,7 @@
 #include "smokesensor.h"
 
 #include "generalsensorobserver.h"
+#include "sensorobserver.hpp"
 
 SmokeSensor::SmokeSensor ( std::string initialName, int initialSensorID, bool initialState, std::string initialVendor, double initialSensitivity ) :
     Sensor ( initialName, initialSensorID, initialState, initialVendor ),
@@ -25,10 +26,16 @@ std::string SmokeSensor::getInformation ( int indentLevel ) const {
     return ( informationString );
 }
 
-void SmokeSensor::observeAndReact ( const GeneralSensorObserver & observer ) const {
-    if ( observer.observe ( this ) == true ) {
-        for ( std::shared_ptr < Alarm > currentAlarm : alarms ) {
-            ( * currentAlarm ) ( getOriginString ( ) );
+void SmokeSensor::observeAndReact ( const GeneralSensorObserver * const observer ) const {
+    if ( const SensorObserver < double > * const concreteObserver = dynamic_cast < const SensorObserver < double > * const > ( observer ) ) {
+        if ( concreteObserver->observe ( this ) == true ) {
+            for ( std::shared_ptr < Alarm > currentAlarm : alarms ) {
+                ( * currentAlarm ) ( getOriginString ( ) );
+                std::cout << getOriginString ( ) + " registered value of "
+                          << concreteObserver->getStoredDataElement ( )
+                          << "\n";
+            }
         }
+    } else {
     }
 }

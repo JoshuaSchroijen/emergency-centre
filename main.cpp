@@ -12,6 +12,10 @@
 #include "toxicgassensor.h"
 #include "motionsensor.h"
 
+#include <smokesensordatagenerator.h>
+#include <toxicgassensordatagenerator.h>
+#include <motionsensordatagenerator.h>
+
 #define NUMBER_OF_MODULES 14
 #define ROOMS_PER_MODULE  4
 
@@ -26,6 +30,10 @@ int main ( ) {
     std::shared_ptr < Policealarm > policeAlarm ( new Policealarm ( IDGeneratorDistribution ( IDGeneratorEngine ) ) );
     std::shared_ptr < Evacuationalarm > evacuationAlarm ( new Evacuationalarm ( IDGeneratorDistribution ( IDGeneratorEngine ) ) );
 
+    std::list < SmokeSensorDataGenerator > smokeSensorDataGenerators;
+    std::list < ToxicGasSensorDataGenerator > toxicGasSensorDataGenerators;
+    std::list < MotionSensorDataGenerator > motionSensorDataGenerators;
+
     std::cout << "Welcome to emergency centre!\n";
 
     SensorGroup GroepT ( "Groep T", IDGeneratorDistribution ( IDGeneratorEngine ), true );
@@ -33,48 +41,58 @@ int main ( ) {
     for ( int module = 1; module <= NUMBER_OF_MODULES; ++module ) {
         SensorGroup * newModule = new SensorGroup ( ( "Module " + std::to_string ( module ) ), IDGeneratorDistribution ( IDGeneratorEngine ), true );
         for ( int room = 1; room <= ROOMS_PER_MODULE; ++room ) {
-            SensorGroup * newRoom = new SensorGroup ( ( "Room " + std::to_string ( room ) ), IDGeneratorDistribution ( IDGeneratorEngine ), true );
-            SmokeSensor * newSmokeSensor;
-            ToxicGasSensor * newToxicGasSensor;
-            MotionSensor * newMotionSensor;
+            std::shared_ptr < SensorGroup > newRoom ( new SensorGroup ( ( "Room " + std::to_string ( room ) ), IDGeneratorDistribution ( IDGeneratorEngine ), true ) );
+            std::shared_ptr < SmokeSensor > newSmokeSensor;
+            std::shared_ptr < ToxicGasSensor > newToxicGasSensor;
+            std::shared_ptr < MotionSensor > newMotionSensor;
 
             if ( vendorGeneratorDistribution ( vendorGeneratorEngine ) ) {
-                newSmokeSensor = new SmokeSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " smoke sensor",
-                                                   IDGeneratorDistribution ( IDGeneratorEngine ),
-                                                   true,
-                                                   "Universal Security Instruments",
-                                                   0.5 );
-                newToxicGasSensor = new ToxicGasSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " gas sensor",
-                                                         IDGeneratorDistribution ( IDGeneratorEngine ),
-                                                         true,
-                                                         "Universal Security Instruments",
-                                                         35,
-                                                         CarbonMonoxide );
-                newMotionSensor = new MotionSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " motion sensor",
-                                                     IDGeneratorDistribution ( IDGeneratorEngine ),
-                                                     true,
-                                                     "First Alert",
-                                                     0.1,
-                                                     5 );
+                newSmokeSensor = std::make_shared < SmokeSensor > ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " smoke sensor",
+                                                                    IDGeneratorDistribution ( IDGeneratorEngine ),
+                                                                    true,
+                                                                    "Universal Security Instruments",
+                                                                    0.5 );
+                newToxicGasSensor = std::make_shared < ToxicGasSensor > ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " gas sensor",
+                                                                          IDGeneratorDistribution ( IDGeneratorEngine ),
+                                                                          true,
+                                                                          "Universal Security Instruments",
+                                                                          35,
+                                                                          CarbonMonoxide );
+                newMotionSensor = std::make_shared < MotionSensor > ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " motion sensor",
+                                                                      IDGeneratorDistribution ( IDGeneratorEngine ),
+                                                                      true,
+                                                                      "First Alert",
+                                                                      0.4,
+                                                                      5 );
             } else {
-                newSmokeSensor = new SmokeSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " smoke sensor",
-                                                   IDGeneratorDistribution ( IDGeneratorEngine ),
-                                                   true,
-                                                   "First Alert",
-                                                   0.5 );
-                newToxicGasSensor = new ToxicGasSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " gas sensor",
-                                                         IDGeneratorDistribution ( IDGeneratorEngine ),
-                                                         true,
-                                                         "First Alert",
-                                                         35,
-                                                         CarbonMonoxide );
-                newMotionSensor = new MotionSensor ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " motion sensor",
-                                                     IDGeneratorDistribution ( IDGeneratorEngine ),
-                                                     true,
-                                                     "Philips",
-                                                     0.1,
-                                                     5 );
+                newSmokeSensor = std::make_shared < SmokeSensor > ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " smoke sensor",
+                                                                    IDGeneratorDistribution ( IDGeneratorEngine ),
+                                                                    true,
+                                                                    "First Alert",
+                                                                    0.8 );
+                newToxicGasSensor = std::make_shared < ToxicGasSensor > ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " gas sensor",
+                                                                          IDGeneratorDistribution ( IDGeneratorEngine ),
+                                                                          true,
+                                                                          "First Alert",
+                                                                          35,
+                                                                          CarbonMonoxide );
+                newMotionSensor = std::make_shared < MotionSensor > ( "Module " + std::to_string ( module ) + ", room " + std::to_string ( room ) + " motion sensor",
+                                                                      IDGeneratorDistribution ( IDGeneratorEngine ),
+                                                                      true,
+                                                                      "Philips",
+                                                                      0.8,
+                                                                      5 );
             }
+
+            SmokeSensorDataGenerator currentRoomSmokeDataGenerator;
+            currentRoomSmokeDataGenerator.subscribeSensor ( newSmokeSensor );
+            smokeSensorDataGenerators.push_back ( currentRoomSmokeDataGenerator );
+            ToxicGasSensorDataGenerator currentRoomToxicGasDataGenerator;
+            currentRoomToxicGasDataGenerator.subscribeSensor ( newToxicGasSensor );
+            toxicGasSensorDataGenerators.push_back ( currentRoomToxicGasDataGenerator );
+            MotionSensorDataGenerator currentRoomMotionDataGenerator;
+            currentRoomMotionDataGenerator.subscribeSensor ( newMotionSensor );
+            motionSensorDataGenerators.push_back ( currentRoomMotionDataGenerator );
 
             newSmokeSensor->addAlarm ( fireAlarm );
             newSmokeSensor->addAlarm ( evacuationAlarm );
@@ -91,6 +109,16 @@ int main ( ) {
     }
 
     std::cout << GroepT.getInformation ( 0 );
+
+    for ( SmokeSensorDataGenerator currentSmokeSensorDataGenerator : smokeSensorDataGenerators ) {
+        currentSmokeSensorDataGenerator.generateData ( );
+    }
+    for ( ToxicGasSensorDataGenerator currentToxicGasSensorDataGenerator : toxicGasSensorDataGenerators ) {
+        currentToxicGasSensorDataGenerator.generateData ( );
+    }
+    for ( MotionSensorDataGenerator currentMotionSensorDataGenerator : motionSensorDataGenerators ) {
+        currentMotionSensorDataGenerator.generateData ( );
+    }
 
     return ( 0 );
 }

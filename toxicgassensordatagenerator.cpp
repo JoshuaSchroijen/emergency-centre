@@ -11,9 +11,9 @@ ToxicGasSensorDataGenerator::ToxicGasSensorDataGenerator ( ) :
 }
 
 void ToxicGasSensorDataGenerator::generateData ( ) {
-    SensorObserver<int> toxicGasObserver;
+    std::shared_ptr < SensorObserver < int > > toxicGasObserver = std::make_shared < SensorObserver < int > > ( ) ;
     for ( std::shared_ptr < Sensor > currentToxicGasSensor : subscribedSensors ) {
-        toxicGasObserver.setStoredDataElement ( gasConcentrationGeneratorDistribution ( gasConcentrationGeneratorEngine ) );
-        currentToxicGasSensor->observeAndReact ( toxicGasObserver );
+        toxicGasObserver->setStoredDataElement ( gasConcentrationGeneratorDistribution ( gasConcentrationGeneratorEngine ) );
+        currentToxicGasSensor->observeAndReact ( toxicGasObserver.get ( ) );
     }
 }

@@ -11,10 +11,10 @@ MotionSensorDataGenerator::MotionSensorDataGenerator ():
 }
 
 void MotionSensorDataGenerator::generateData ( ) {
-    SensorObserver<bool> motionObserver;
+    std::shared_ptr < SensorObserver < bool > > motionObserver = std::make_shared < SensorObserver < bool > > ( );
 
     for ( std::shared_ptr < Sensor > currentMotionSensor : subscribedSensors ) {
-        motionObserver.setStoredDataElement ( motionGeneratorDistribution ( motionGeneratorEngine ) );
-        currentMotionSensor->observeAndReact ( motionObserver );
+        motionObserver->setStoredDataElement ( motionGeneratorDistribution ( motionGeneratorEngine ) );
+        currentMotionSensor->observeAndReact ( motionObserver.get ( ) );
     }
 }
